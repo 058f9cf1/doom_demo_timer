@@ -11,13 +11,16 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	fseek(file, 0, SEEK_END); // seek to end of file
-	int size = ftell(file); // get current file pointer
-	fseek(file, 0, SEEK_SET); // seek back to beginning of file
+	//Determine size of the demo
+	fseek(file, 0, SEEK_END); //Seek to end of file
+	int size = ftell(file); //Get current file pointer
+	fseek(file, 0, SEEK_SET); //Seek back to beginning of file
 
+	//Read the contents of the demo to buffer
 	signed char buffer[size];
 	fread(buffer, size, 1, file);
 
+	//Print out headder information
 	printf("Demo name: %s\n", argv[1]);
 	printf("Size: %d bytes\n", size);
 	printf("Game version: %d\n", buffer[0]);
@@ -37,13 +40,16 @@ int main(int argc, char* argv[])
 	int count = 0;
 	int end = 0;
 
+	//Loop through the rest of the demo
 	for(int i = 13; i < size; i++)
 	{
+		//Determine if the demo has ended
 		if(buffer[i] == -128)
 		{
 			end = 1;
 		}
 
+		//Print bytes in groups of 4
 		printf("%d ", buffer[i]);
 		if(i%4 == 0 & !end)
 		{
@@ -51,6 +57,7 @@ int main(int argc, char* argv[])
 			count++;
 		}
 	}
+	//Display total tics and time
 	printf("\nNumber of tics: %d\n", count);
 	printf("Final time: %.2f\n", (float)count/35);
 
