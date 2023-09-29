@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
   
+const char* difficulty_names[] ={"I'm too young to die", "Hey, not too rough", "Hurt me plenty", "Ultra-Violence", "Nightmare!"};
+
 int main(int argc, char* argv[])
 {
 	// If the file exists and has read permission
@@ -24,18 +26,18 @@ int main(int argc, char* argv[])
 	printf("Demo name: %s\n", argv[1]);
 	printf("Size: %d bytes\n", size);
 	printf("Game version: %d\n", buffer[0]);
-	printf("Skill: %x\n", buffer[1]+1);
+	printf("Skill: %s\n", difficulty_names[buffer[1]]);
 	printf("Episode: %x\n", buffer[2]);
 	printf("Map: %x\n", buffer[3]);
 	printf("Multiplayer mode: %x\n", buffer[4]);
 	printf("-respawn: %x\n", buffer[5]);
 	printf("-fast: %x\n", buffer[6]);
 	printf("-nomonsters: %x\n", buffer[7]);
-	printf("POV: %x\n", buffer[8]);
+	printf("POV: P%x\n", buffer[8] + 1);
 	printf("P1: %x\n", buffer[9]);
 	printf("P2: %x\n", buffer[10]);
 	printf("P3: %x\n", buffer[11]);
-	printf("P4: %x\n", buffer[12]);
+	printf("P4: %x\n\n", buffer[12]);
 
 	int count = 0;
 	int end = 0;
@@ -50,7 +52,7 @@ int main(int argc, char* argv[])
 		}
 
 		//Print bytes in groups of 4
-		printf("%d ", buffer[i]);
+		printf("%3d ", buffer[i]);
 		if(i%4 == 0 & !end)
 		{
 			printf("\n");
@@ -59,7 +61,7 @@ int main(int argc, char* argv[])
 	}
 	//Display total tics and time
 	printf("\nNumber of tics: %d\n", count);
-	printf("Final time: %.2f\n", (float)count/35);
+	printf("Total demo time: %.2f\n", (float)count/35);
 
 	fclose(file);
 	return 0;
